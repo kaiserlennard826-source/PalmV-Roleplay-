@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PalmV Roleplay</title>
+<style>
+  :root{
+    --bg:#06120d;
+    --bg-soft:#0b1a13;
+    --card:#0e1f16;
+    --line:rgba(57,255,141,0.18);
+    --green:#39ff8d;
+    --green-deep:#0fae5c;
+    --green-dim:#1c5c3c;
+    --text:#e8f3ec;
+    --text-dim:#8fa99a;
+    --font-display:'Rajdhani', 'Arial Narrow', sans-serif;
+    --font-body:'Inter', system-ui, sans-serif;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    top:-20%; left:-10%;
+    width:120%; height:60%;
+    background:radial-gradient(circle at 30% 0%, rgba(57,255,141,0.10), transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
+
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 28px;max-width:760px;margin:0 auto;
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:0.5px;}
+  .logo-mark{
+    width:30px;height:30px;border-radius:7px;
+    background:linear-gradient(135deg,var(--green),var(--green-deep));
+    box-shadow:0 0 18px rgba(57,255,141,0.45);
+  }
+  nav a{color:var(--text-dim);text-decoration:none;font-size:14px;margin-left:22px;}
+  nav a:hover{color:var(--green);}
+
+  .hero{padding:60px 0 40px;text-align:left;}
+  .eyebrow{
+    display:inline-block;font-family:var(--font-display);
+    color:var(--green);font-size:13px;letter-spacing:3px;
+    text-transform:uppercase;border:1px solid var(--line);
+    padding:6px 14px;border-radius:30px;margin-bottom:22px;
+    background:rgba(57,255,141,0.05);
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(40px,9vw,58px);
+    line-height:1.05;
+    margin:0 0 18px;
+    letter-spacing:-0.5px;
+  }
+  h1 .accent{color:var(--green);text-shadow:0 0 30px rgba(57,255,141,0.35);}
+  .sub{color:var(--text-dim);font-size:17px;line-height:1.6;max-width:520px;margin:0 0 34px;}
+
+  .btn-row{display:flex;flex-direction:column;gap:14px;margin-bottom:50px;}
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    padding:18px 24px;border-radius:12px;font-family:var(--font-display);
+    font-weight:700;font-size:17px;letter-spacing:0.4px;text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{
+    background:linear-gradient(135deg,var(--green),var(--green-deep));
+    color:#04140b;
+    box-shadow:0 0 28px rgba(57,255,141,0.35);
+  }
+  .btn-primary:hover{box-shadow:0 0 40px rgba(57,255,141,0.55);}
+  .btn-outline{
+    background:transparent;border:1px solid var(--green-dim);color:var(--green);
+  }
+  .btn-outline:hover{border-color:var(--green);background:rgba(57,255,141,0.06);}
+
+  .section{padding:60px 0;}
+  .section-tag{
+    font-family:var(--font-display);color:var(--text-dim);
+    font-size:14px;display:flex;align-items:center;gap:10px;
+    margin-bottom:8px;letter-spacing:1px;
+  }
+  .section-title{
+    font-family:var(--font-display);font-weight:700;
+    font-size:clamp(30px,7vw,42px);margin:0 0 10px;letter-spacing:-0.5px;
+  }
+  .section-desc{color:var(--text-dim);font-size:16px;margin:0 0 36px;}
+
+  .stat-grid{display:flex;flex-direction:column;gap:16px;}
+  .stat-card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:30px;text-align:center;
+  }
+  .stat-icon{font-size:26px;margin-bottom:10px;}
+  .stat-num{
+    font-family:var(--font-display);font-weight:700;font-size:40px;
+    color:var(--green);text-shadow:0 0 24px rgba(57,255,141,0.35);
+  }
+  .stat-label{color:var(--text-dim);font-size:14px;margin-top:6px;}
+
+  .feature-grid{display:flex;flex-direction:column;gap:16px;}
+  .feature-card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:34px 28px;text-align:center;
+  }
+  .feature-icon{
+    width:56px;height:56px;border-radius:50%;margin:0 auto 18px;
+    background:linear-gradient(135deg,var(--green),var(--green-deep));
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+  }
+  .feature-title{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--green);margin-bottom:10px;}
+  .feature-text{color:var(--text-dim);font-size:15px;line-height:1.6;}
+
+  #team-list{display:flex;flex-direction:column;gap:18px;}
+  .team-card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:30px;text-align:center;
+  }
+  .team-avatar{
+    width:88px;height:88px;border-radius:50%;margin:0 auto 16px;
+    background:var(--bg-soft);border:2px solid var(--green-dim);
+    object-fit:cover;display:block;
+  }
+  .team-name{font-family:var(--font-display);font-weight:700;font-size:24px;color:var(--green);}
+  .team-role{
+    display:inline-block;margin:10px 0 14px;font-size:13px;color:var(--text-dim);
+    background:rgba(255,255,255,0.04);padding:6px 14px;border-radius:30px;
+  }
+  .team-bio{color:var(--text-dim);font-size:14.5px;line-height:1.6;margin-bottom:16px;}
+  .team-discord{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:38px;height:38px;border-radius:10px;background:var(--bg-soft);
+    border:1px solid var(--green-dim);color:var(--green);text-decoration:none;
+  }
+
+  .footer-cols{display:flex;flex-direction:column;gap:38px;}
+  .footer-block h4{
+    font-family:var(--font-display);color:var(--green);font-size:18px;margin:0 0 14px;
+  }
+  .footer-block a{display:block;color:var(--text-dim);text-decoration:none;font-size:15px;margin-bottom:10px;}
+  .footer-block a:hover{color:var(--green);}
+  .social-row{display:flex;gap:14px;margin-top:6px;}
+  .social-row a{
+    width:42px;height:42px;border-radius:10px;background:var(--card);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--text-dim);
+  }
+  .social-row a:hover{color:var(--green);border-color:var(--green-dim);}
+  .copyright{
+    border-top:1px solid var(--line);margin-top:50px;padding-top:24px;
+    color:var(--text-dim);font-size:13px;text-align:center;
+  }
+
+  @media(min-width:680px){
+    .stat-grid, .feature-grid{display:grid;grid-template-columns:1fr 1fr;}
+    .footer-cols{display:grid;grid-template-columns:1fr 1fr 1fr;}
+    .btn-row{flex-direction:row;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="logo-mark"></span>PalmV</div>
+  <div>
+    <a href="#stand">Stand</a>
+    <a href="#team">Team</a>
+    <a href="#connect">Connect</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <section class="hero">
+    <span class="eyebrow">FiveM Roleplay</span>
+    <h1>PalmV <span class="accent">Crimelife</span><br>Roleplay Server</h1>
+    <p class="sub">Tauch ein in eine lebendige Crimelife-Welt auf ESX-Basis. Faire Regeln, eigene Scripte, echte Community.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="https://cfx.re/join/DEIN-CODE" target="_blank">▶ Jetzt spielen!</a>
+      <a class="btn btn-outline" href="https://discord.gg/DEIN-INVITE" target="_blank">Unser Discord</a>
+    </div>
+  </section>
+
+  <section class="section" id="stand">
+    <div class="section-tag">📈 Aktueller Stand</div>
+    <h2 class="section-title">PalmV in Zahlen</h2>
+    <div class="stat-grid" id="stats-list"></div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="section-tag">✦ Features</div>
+    <h2 class="section-title">Was PalmV ausmacht</h2>
+    <p class="section-desc">Eigene Systeme, eigene Regeln, eigenes Erlebnis.</p>
+    <div class="feature-grid" id="features-list"></div>
+  </section>
+
+  <section class="section" id="team">
+    <div class="section-tag">👥 Unser Team</div>
+    <h2 class="section-title">Die Köpfe hinter PalmV</h2>
+    <p class="section-desc">Das Team hinter PalmV Crimelife.</p>
+    <div id="team-list"></div>
+  </section>
+
+  <section class="section" id="connect">
+    <div class="footer-cols">
+      <div class="footer-block">
+        <h4>Über uns</h4>
+        <a style="color:var(--text-dim);cursor:default;">PalmV Crimelife bietet ein authentisches Roleplay-Erlebnis auf FiveM mit aktiver Community.</a>
+      </div>
+      <div class="footer-block">
+        <h4>Rechtliches</h4>
+        <a href="#">Nutzungsbedingungen</a>
+        <a href="#">Datenschutz</a>
+      </div>
+      <div class="footer-block">
+        <h4>Connect</h4>
+        <div class="social-row">
+          <a href="https://discord.gg/DEIN-INVITE" target="_blank" title="Discord">D</a>
+          <a href="https://tiktok.com/@DEIN-TIKTOK" target="_blank" title="TikTok">T</a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">© 2026 PalmV Crimelife. Alle Rechte vorbehalten.</div>
+  </section>
+
+</div>
+
+<script>
+const TEAM = [
+  {
+    name: "Lenny",
+    role: "Projektinhaber & Developer",
+    bio: "Gründer von PalmV Crimelife. Entwickelt eigene Scripte und ist verantwortlich für Backend und Infrastruktur des Servers.",
+    avatar: "",
+    discord: "https://discord.com/users/0000000000"
+  },
+  {
+    name: "Beispiel",
+    role: "Stv. Projektinhaber",
+    bio: "Kurze Beschreibung der Rolle und Aufgaben im Team.",
+    avatar: "",
+    discord: "https://discord.com/users/0000000000"
+  }
+];
+
+const FEATURES = [
+  { icon:"🧩", title:"Eigene Scripte", text:"PalmV setzt auf selbstgeschriebene Systeme statt Standard-Resourcen." },
+  { icon:"🔄", title:"Beste Sync", text:"Flüssige Animationen und Sync für ein realistisches Spielerlebnis." },
+  { icon:"🛡️", title:"AntiCheat", text:"Ein starkes AntiCheat schützt PalmV zuverlässig vor Cheatern." }
+];
+
+const STATS = [
+  { icon:"💬", num:"0", label:"Discord Mitglieder" },
+  { icon:"👥", num:"0", label:"Spieler Online" },
+  { icon:"🔥", num:"0", label:"Peak Spieler" },
+  { icon:"➕", num:"0+", label:"Registrierte Spieler" }
+];
+
+const teamHTML = TEAM.map(m => `
+  <div class="team-card">
+    ${m.avatar
+      ? `<img class="team-avatar" src="${m.avatar}" alt="${m.name}">`
+      : `<div class="team-avatar" style="display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:28px;color:var(--green-dim);">${m.name.charAt(0)}</div>`}
+    <div class="team-name">${m.name}</div>
+    <div class="team-role">${m.role}</div>
+    <div class="team-bio">${m.bio}</div>
+    <a class="team-discord" href="${m.discord}" target="_blank">D</a>
+  </div>
+`).join("");
+document.getElementById("team-list").innerHTML = teamHTML;
+
+const featuresHTML = FEATURES.map(f => `
+  <div class="feature-card">
+    <div class="feature-icon">${f.icon}</div>
+    <div class="feature-title">${f.title}</div>
+    <div class="feature-text">${f.text}</div>
+  </div>
+`).join("");
+document.getElementById("features-list").innerHTML = featuresHTML;
+
+const statsHTML = STATS.map(s => `
+  <div class="stat-card">
+    <div class="stat-icon">${s.icon}</div>
+    <div class="stat-num">${s.num}</div>
+    <div class="stat-label">${s.label}</div>
+  </div>
+`).join("");
+document.getElementById("stats-list").innerHTML = statsHTML;
+</script>
+
+</body>
+</html>
